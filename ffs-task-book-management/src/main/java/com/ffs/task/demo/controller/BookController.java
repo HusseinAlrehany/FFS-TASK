@@ -5,10 +5,9 @@ import com.ffs.task.demo.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -24,4 +23,19 @@ public class BookController {
       return ResponseEntity.ok(bookService.createBook(bookDTO));
    }
 
+   @PutMapping("/books")
+   public ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO bookDTO){
+
+      return ResponseEntity.ok(bookService.updateBook(bookDTO));
+   }
+   @DeleteMapping("/books/{bookId}")
+   public ResponseEntity<Void> deleteBook(@PathVariable int  bookId){
+      bookService.deleteBookById(bookId);
+      return ResponseEntity.noContent().build();
+   }
+
+   @GetMapping("/books")
+   public ResponseEntity<List<BookDTO>> findAllBooks(){
+      return ResponseEntity.ok(bookService.findAllBooks());
+   }
 }

@@ -13,4 +13,6 @@ public class BookDTO {
     private Type type;
 
     private int authorId;
+
+    private String authorName;
 }

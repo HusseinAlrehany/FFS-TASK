@@ -17,6 +17,7 @@ public class Book {
 
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -32,6 +33,7 @@ public class Book {
         bookDTO.setName(name);
         bookDTO.setType(type);
         bookDTO.setAuthorId(author.getId());
+        bookDTO.setAuthorName(author.getName());
         return bookDTO;
 
     }
