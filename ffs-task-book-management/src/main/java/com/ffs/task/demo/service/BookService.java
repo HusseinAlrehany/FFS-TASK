@@ -8,6 +8,8 @@ import com.ffs.task.demo.repository.AuthorRepository;
 import com.ffs.task.demo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,13 +30,15 @@ public class BookService {
         if(optionalAuthor.isEmpty()){
             throw new NotFoundException("No Author Found");
         }
-        if(bookDTO.getName().isBlank() || bookDTO.getType() == null){
-            throw new IllegalArgumentException("Book Name or Type Is Required");
+        if(bookDTO.getName().isBlank()|| bookDTO.getType() == null){
+            throw new IllegalArgumentException("Book Name and Type Is Required");
         }
         Book book = new Book();
         book.setId(bookDTO.getId());
         book.setName(bookDTO.getName());
         book.setType(bookDTO.getType());
+        book.setPrice(bookDTO.getPrice());
+        book.setSerialNumber(bookDTO.getSerialNumber());
         book.setAuthor(optionalAuthor.get());
 
          bookRepository.save(book);
@@ -52,6 +56,8 @@ public class BookService {
         book.setId(bookDTO.getId());
         book.setName(bookDTO.getName());
         book.setType(bookDTO.getType());
+        book.setSerialNumber(bookDTO.getSerialNumber());
+        book.setPrice(bookDTO.getPrice());
         book.setAuthor(author);
 
         bookRepository.save(book);

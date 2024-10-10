@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.LocalDateTime;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @ControllerAdvice
 public class ExceptionHandler  {
@@ -19,7 +20,7 @@ public class ExceptionHandler  {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<Object> globalExceptionHandler(Exception exc) {
-        return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, exc.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(new ErrorResponse(INTERNAL_SERVER_ERROR, exc.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)

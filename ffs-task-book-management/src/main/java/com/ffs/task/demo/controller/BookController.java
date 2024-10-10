@@ -16,10 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
 
+
    private final BookService bookService;
 
 
-   @PostMapping("/books")
+   @PostMapping("/createBook")
    public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO){
 
           return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -27,18 +28,18 @@ public class BookController {
           );
       }
 
-   @PutMapping("/books")
+   @PutMapping("/updateBook")
    public ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO bookDTO){
 
       return ResponseEntity.ok(bookService.updateBook(bookDTO));
    }
-   @DeleteMapping("/books/{bookId}")
+   @DeleteMapping("/deleteBook/{bookId}")
    public ResponseEntity<Void> deleteBook(@PathVariable int  bookId){
       bookService.deleteBookById(bookId);
       return ResponseEntity.noContent().build();
    }
 
-   @GetMapping("/books")
+   @GetMapping("/getBooks")
    public ResponseEntity<List<BookDTO>> findAllBooks(){
       return ResponseEntity.ok(bookService.findAllBooks());
    }
