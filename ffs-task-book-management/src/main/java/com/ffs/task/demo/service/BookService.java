@@ -3,12 +3,11 @@ package com.ffs.task.demo.service;
 import com.ffs.task.demo.dtos.BookDTO;
 import com.ffs.task.demo.entities.Author;
 import com.ffs.task.demo.entities.Book;
+import com.ffs.task.demo.exception.NotFoundException;
 import com.ffs.task.demo.repository.AuthorRepository;
 import com.ffs.task.demo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +26,10 @@ public class BookService {
     public BookDTO createBook(BookDTO bookDTO) {
         Optional<Author> optionalAuthor = authorRepository.findById(bookDTO.getAuthorId());
         if(optionalAuthor.isEmpty()){
-            throw new RuntimeException("No Author Found");
+            throw new NotFoundException("No Author Found");
+        }
+        if(bookDTO.getName().isBlank() || bookDTO.getType() == null){
+            throw new IllegalArgumentException("Book Name or Type Is Required");
         }
         Book book = new Book();
         book.setId(bookDTO.getId());
@@ -43,7 +45,7 @@ public class BookService {
         Optional<Book> optionalBook = bookRepository.findById(bookDTO.getId());
         Optional<Author> optionalAuthor = authorRepository.findById(bookDTO.getAuthorId());
         if(optionalBook.isEmpty() || optionalAuthor.isEmpty()){
-            throw new RuntimeException("No Book Or Author Found");
+            throw new NotFoundException("No Book Or Author Found");
         }
         Book book = optionalBook.get();
         Author author = optionalAuthor.get();
@@ -58,11 +60,17 @@ public class BookService {
     }
 
     public void deleteBookById(int bookId) {
+       Book book = bookRepository.findById(bookId).
+                orElseThrow(()-> new NotFoundException("No Book Found"));
         bookRepository.deleteById(bookId);
     }
 
     public List<BookDTO> findAllBooks() {
-        return bookRepository.findAll().stream()
+        List<Book> books = bookRepository.findAll();
+        if(books.isEmpty()){
+            throw  new NotFoundException("No Books Found");
+        }
+        return books.stream()
                 .map(Book::getBookDTO)
                 .collect(Collectors.toList());
     }
