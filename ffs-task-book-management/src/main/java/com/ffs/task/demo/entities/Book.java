@@ -1,5 +1,6 @@
 package com.ffs.task.demo.entities;
 
+import com.ffs.task.demo.dtos.BookDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
@@ -22,4 +23,18 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Author author;
+
+
+
+    public BookDTO getBookDTO(){
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setId(id);
+        bookDTO.setName(name);
+        bookDTO.setType(type);
+        bookDTO.setAuthorId(author.getId());
+        return bookDTO;
+
+    }
 }
+
+
