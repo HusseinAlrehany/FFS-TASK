@@ -1,5 +1,6 @@
 package com.ffs.task.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ffs.task.demo.dtos.BookDTO;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,12 +9,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "book")
 @Data
-public class Book {
+public class Book  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +39,15 @@ public class Book {
     @UpdateTimestamp
     private Date lastUpdated;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    //changing fetch to eager to avoid issues when serialize to JSON
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Author author;
 
 
 
+    @JsonIgnore
     public BookDTO getBookDTO(){
         BookDTO bookDTO = new BookDTO();
         bookDTO.setId(id);

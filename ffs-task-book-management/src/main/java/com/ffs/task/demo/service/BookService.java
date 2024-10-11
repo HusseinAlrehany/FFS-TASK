@@ -3,13 +3,16 @@ package com.ffs.task.demo.service;
 import com.ffs.task.demo.dtos.BookDTO;
 import com.ffs.task.demo.entities.Author;
 import com.ffs.task.demo.entities.Book;
+import com.ffs.task.demo.exception.ArgumentException;
 import com.ffs.task.demo.exception.NotFoundException;
 import com.ffs.task.demo.repository.AuthorRepository;
 import com.ffs.task.demo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +25,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
 
+
     private final AuthorRepository authorRepository;
 
 
@@ -31,7 +35,7 @@ public class BookService {
             throw new NotFoundException("No Author Found");
         }
         if(bookDTO.getName().isBlank()|| bookDTO.getType() == null){
-            throw new IllegalArgumentException("Book Name and Type Is Required");
+            throw new ArgumentException("Book Name and Type Is Required");
         }
         Book book = new Book();
         book.setId(bookDTO.getId());
@@ -79,5 +83,10 @@ public class BookService {
         return books.stream()
                 .map(Book::getBookDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Page<Book> getAllBooks(int page, int size){
+
+        return bookRepository.findAll(PageRequest.of(page, size));
     }
 }

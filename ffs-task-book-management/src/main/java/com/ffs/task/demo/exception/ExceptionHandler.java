@@ -29,6 +29,12 @@ public class ExceptionHandler  {
         return new ResponseEntity<Object>(new ErrorResponse(HttpStatus.NOT_FOUND, exc.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ArgumentException.class)
+    public ResponseEntity<Object> argumentExceptionHandler(ArgumentException exc) {
+
+        return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, exc.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
 
     }
 
