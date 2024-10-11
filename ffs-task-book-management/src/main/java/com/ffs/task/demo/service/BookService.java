@@ -3,6 +3,7 @@ package com.ffs.task.demo.service;
 import com.ffs.task.demo.dtos.BookDTO;
 import com.ffs.task.demo.entities.Author;
 import com.ffs.task.demo.entities.Book;
+import com.ffs.task.demo.entities.Type;
 import com.ffs.task.demo.exception.ArgumentException;
 import com.ffs.task.demo.exception.NotFoundException;
 import com.ffs.task.demo.repository.AuthorRepository;
@@ -88,5 +89,22 @@ public class BookService {
     public Page<Book> getAllBooks(int page, int size){
 
         return bookRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public List<BookDTO> filterBookByNameAndPrice(Type type,  Long price, int authorId){
+
+       if(price == null || price <= 0){
+           throw new ArgumentException("price must be positive number");
+       }
+       if(authorId <= 0){
+           throw new ArgumentException("authorId must be positive number");
+
+       }
+        List<Book> filteredBooks = bookRepository.findByTypeAndPriceGreaterThanAndAuthor_Id(type, price, authorId);
+        if(filteredBooks.isEmpty()){
+            throw new NotFoundException("No Books Found");
+        }
+
+        return filteredBooks.stream().map(Book::getBookDTO).collect(Collectors.toList());
     }
 }

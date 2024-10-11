@@ -2,17 +2,18 @@ package com.ffs.task.demo.controller;
 
 import com.ffs.task.demo.dtos.BookDTO;
 import com.ffs.task.demo.entities.Book;
+import com.ffs.task.demo.entities.Type;
 import com.ffs.task.demo.service.BookService;
+import com.ffs.task.demo.service.JasperReportService;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,9 @@ public class BookController {
 
 
    private final BookService bookService;
+
+   @Autowired
+   private JasperReportService jasperReportService;
 
 
 
@@ -56,5 +60,18 @@ public class BookController {
 
       return ResponseEntity.ok(bookService.getAllBooks(page, size));
 
+   }
+
+   @GetMapping("/filterBooks")
+   public ResponseEntity<List<BookDTO>> filterBooks(@RequestParam Type type,
+                                                    @RequestParam Long price,
+                                                    @RequestParam int authorId){
+      return ResponseEntity.ok(bookService.filterBookByNameAndPrice(type, price, authorId));
+
+   }
+
+   @GetMapping("/bookReport/{format}")
+   public String generateReport(@PathVariable String format) throws JRException, FileNotFoundException {
+       return jasperReportService.exportReport(format);
    }
 }
