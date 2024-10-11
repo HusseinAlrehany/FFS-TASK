@@ -20,6 +20,7 @@ public class ExceptionHandler  {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<Object> globalExceptionHandler(Exception exc) {
+         exc.printStackTrace();
         return new ResponseEntity<Object>(new ErrorResponse(INTERNAL_SERVER_ERROR, exc.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
     }
 

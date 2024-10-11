@@ -1,10 +1,12 @@
 package com.ffs.task.demo.controller;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.ffs.task.demo.dtos.BookDTO;
 import com.ffs.task.demo.entities.Book;
 import com.ffs.task.demo.entities.Type;
 import com.ffs.task.demo.service.BookService;
 import com.ffs.task.demo.service.JasperReportService;
+import com.ffs.task.demo.service.JasperService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class BookController {
 
    @Autowired
    private JasperReportService jasperReportService;
+
+   @Autowired
+   private JasperService jasperService;
 
 
 
@@ -63,10 +68,11 @@ public class BookController {
    }
 
    @GetMapping("/filterBooks")
-   public ResponseEntity<List<BookDTO>> filterBooks(@RequestParam Type type,
+   public String filterBooks(@RequestParam(defaultValue = "pdf") String format,
+                                                    @RequestParam Type type,
                                                     @RequestParam Long price,
-                                                    @RequestParam int authorId){
-      return ResponseEntity.ok(bookService.filterBookByNameAndPrice(type, price, authorId));
+                                                    @RequestParam int authorId) throws JRException, FileNotFoundException {
+      return jasperService.exportReport(format, type, price, authorId);
 
    }
 
