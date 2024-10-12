@@ -6,3 +6,4 @@ Project Technologies
 4-Swagger API
 5-Jasper Report
 6-Jasper Studio
+7-IntelliJ IDE Community
