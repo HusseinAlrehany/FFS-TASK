@@ -65,19 +65,16 @@ public class BookController {
    }
 
    @GetMapping("/filterBooks")
-   public ResponseEntity<?> filterBooks(@RequestParam(defaultValue = "pdf") String format,
+   public ResponseEntity<ReportSuccessDTO> filterBooks(@RequestParam(defaultValue = "pdf") String format,
                                              @RequestParam Type type,
                                              @RequestParam Long price,
                                              @RequestParam int authorId) {
 
-      try {
+
          ReportSuccessDTO reportSuccess = jasperService.exportReport(format, type, price, authorId);
-         return ResponseEntity.ok(reportSuccess);
 
-      } catch (Exception e) {
+         return ResponseEntity.status(reportSuccess.getHttpStatus()).body(reportSuccess);
 
-         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
-      }
 
 
    }

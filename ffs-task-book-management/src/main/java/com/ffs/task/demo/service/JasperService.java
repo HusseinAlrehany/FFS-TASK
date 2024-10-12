@@ -3,9 +3,11 @@ import com.ffs.task.demo.dtos.BookDTO;
 import com.ffs.task.demo.dtos.ReportSuccessDTO;
 import com.ffs.task.demo.entities.Type;
 import com.ffs.task.demo.exception.NotFoundException;
+import com.ffs.task.demo.exception.ReportGenerationException;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,8 @@ public class JasperService {
 
     private String path  = System.getProperty("user.dir");
 
-    public ReportSuccessDTO exportReport(String format, Type type, Long price, int authorId) throws JRException, FileNotFoundException{
+    public ReportSuccessDTO exportReport(String format, Type type, Long price, int authorId) {
+        try {
 
             List<BookDTO> bookDTOList = bookService.filterBookByNameAndPrice(type,price, authorId);
             //load the file
@@ -56,6 +59,14 @@ public class JasperService {
             reportSuccess.setReportPath(path);
 
             return reportSuccess;
+
+
+        }
+        catch (FileNotFoundException ex){
+            throw new NotFoundException("Report Template Not Found");
+        }catch(JRException ex){
+            throw new ReportGenerationException("Error Generating the report");
+        }
 
         }
 

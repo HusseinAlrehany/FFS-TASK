@@ -21,7 +21,7 @@ public class ExceptionHandler  {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<Object> globalExceptionHandler(Exception exc) {
-        return new ResponseEntity<Object>(new ErrorResponse(INTERNAL_SERVER_ERROR, exc.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(new ErrorResponse(INTERNAL_SERVER_ERROR, exc.getMessage(), LocalDateTime.now()), INTERNAL_SERVER_ERROR);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
@@ -33,12 +33,12 @@ public class ExceptionHandler  {
     @org.springframework.web.bind.annotation.ExceptionHandler(ArgumentException.class)
     public ResponseEntity<Object> argumentExceptionHandler(ArgumentException exc) {
 
-        return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, exc.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, exc.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(JRException.class)
-    public ResponseEntity<Object> handleJRException(JRException ex) {
-        return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, ex.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    @org.springframework.web.bind.annotation.ExceptionHandler(ReportGenerationException.class)
+    public ResponseEntity<Object> handleJRException(ReportGenerationException ex) {
+        return new ResponseEntity<Object>(new ErrorResponse(INTERNAL_SERVER_ERROR, ex.getMessage(), LocalDateTime.now()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
