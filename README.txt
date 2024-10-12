@@ -7,3 +7,7 @@ Project Technologies
 5-Jasper Report
 6-Jasper Studio
 7-IntelliJ IDE Community
++++++++++++++++++++++++++++
+DB Data Souce:ffs_task
+DB Username:springstudent
+DB Password:springstudent
