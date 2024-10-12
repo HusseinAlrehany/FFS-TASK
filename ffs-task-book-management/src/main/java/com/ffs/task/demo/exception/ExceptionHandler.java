@@ -1,5 +1,6 @@
 package com.ffs.task.demo.exception;
 
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -20,7 +21,6 @@ public class ExceptionHandler  {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<Object> globalExceptionHandler(Exception exc) {
-         exc.printStackTrace();
         return new ResponseEntity<Object>(new ErrorResponse(INTERNAL_SERVER_ERROR, exc.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
     }
 
@@ -34,6 +34,11 @@ public class ExceptionHandler  {
     public ResponseEntity<Object> argumentExceptionHandler(ArgumentException exc) {
 
         return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, exc.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(JRException.class)
+    public ResponseEntity<Object> handleJRException(JRException ex) {
+        return new ResponseEntity<Object>(new ErrorResponse(BAD_REQUEST, ex.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
     }
 
 

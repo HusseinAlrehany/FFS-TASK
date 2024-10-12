@@ -1,20 +1,22 @@
 package com.ffs.task.demo.controller;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.ffs.task.demo.dtos.BookDTO;
+import com.ffs.task.demo.dtos.ReportSuccessDTO;
 import com.ffs.task.demo.entities.Book;
 import com.ffs.task.demo.entities.Type;
+import com.ffs.task.demo.exception.ErrorResponse;
 import com.ffs.task.demo.service.BookService;
-import com.ffs.task.demo.service.JasperReportService;
 import com.ffs.task.demo.service.JasperService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -26,13 +28,8 @@ public class BookController {
 
    private final BookService bookService;
 
-   @Autowired
-   private JasperReportService jasperReportService;
 
-   @Autowired
-   private JasperService jasperService;
-
-
+   private final JasperService jasperService;
 
    @PostMapping("/createBook")
    public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO){
@@ -68,16 +65,22 @@ public class BookController {
    }
 
    @GetMapping("/filterBooks")
-   public String filterBooks(@RequestParam(defaultValue = "pdf") String format,
-                                                    @RequestParam Type type,
-                                                    @RequestParam Long price,
-                                                    @RequestParam int authorId) throws JRException, FileNotFoundException {
-      return jasperService.exportReport(format, type, price, authorId);
+   public ResponseEntity<?> filterBooks(@RequestParam(defaultValue = "pdf") String format,
+                                             @RequestParam Type type,
+                                             @RequestParam Long price,
+                                             @RequestParam int authorId) {
+
+      try {
+         ReportSuccessDTO reportSuccess = jasperService.exportReport(format, type, price, authorId);
+         return ResponseEntity.ok(reportSuccess);
+
+      } catch (Exception e) {
+
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+      }
+
 
    }
 
-   @GetMapping("/bookReport/{format}")
-   public String generateReport(@PathVariable String format) throws JRException, FileNotFoundException {
-       return jasperReportService.exportReport(format);
-   }
+
 }

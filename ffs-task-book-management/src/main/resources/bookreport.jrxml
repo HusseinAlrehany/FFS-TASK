@@ -42,14 +42,14 @@
                     <textElement>
                         <font size="34" isBold="true"/>
                     </textElement>
-                    <text><![CDATA[TITLE]]></text>
+                    <text><![CDATA[Books Report]]></text>
                 </staticText>
                 <staticText>
                     <reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="b84547ec-ef28-41a5-ae1b-5a46d9ba9404"/>
                     <textElement textAlignment="Right">
                         <font size="14" isBold="false"/>
                     </textElement>
-                    <text><![CDATA[Add a description here]]></text>
+                    <text><![CDATA[Book Filter By Type, AuthorId, Price]]></text>
                 </staticText>
             </frame>
         </band>
