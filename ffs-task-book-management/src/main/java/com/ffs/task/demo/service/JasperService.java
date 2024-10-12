@@ -5,6 +5,7 @@ import com.ffs.task.demo.entities.Type;
 import com.ffs.task.demo.exception.NotFoundException;
 import com.ffs.task.demo.exception.ReportGenerationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.aspectj.weaver.ast.Not;

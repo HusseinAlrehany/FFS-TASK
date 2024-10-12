@@ -49,7 +49,7 @@
                     <textElement textAlignment="Right">
                         <font size="14" isBold="false"/>
                     </textElement>
-                    <text><![CDATA[Book Filter By Type, AuthorId, Price]]></text>
+                    <text><![CDATA[Book Filteration]]></text>
                 </staticText>
             </frame>
         </band>
