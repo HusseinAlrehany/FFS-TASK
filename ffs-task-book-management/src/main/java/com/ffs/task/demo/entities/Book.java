@@ -45,6 +45,7 @@ public class Book  {
 
 
 
+    //USING MODEL MAPPER TO MAP ENTITY TO DTO
     @JsonIgnore
     public BookDTO getBookDTO(){
         BookDTO bookDTO = new BookDTO();

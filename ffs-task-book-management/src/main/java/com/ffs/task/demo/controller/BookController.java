@@ -65,15 +65,16 @@ public class BookController {
    }
 
    @GetMapping("/filterBooks")
-   public ResponseEntity<ReportSuccessDTO> filterBooks(@RequestParam(defaultValue = "pdf") String format,
+   public ResponseEntity<byte[]> filterBooks(@RequestParam(defaultValue = "pdf") String format,
                                              @RequestParam Type type,
                                              @RequestParam Long price,
                                              @RequestParam int authorId) {
 
 
-         ReportSuccessDTO reportSuccess = jasperService.exportReport(format, type, price, authorId);
+         //ReportSuccessDTO reportSuccess = jasperService.exportReport(format, type, price, authorId);
+        //ResponseEntity.status(reportSuccess.getHttpStatus()).body(reportSuccess);
 
-         return ResponseEntity.status(reportSuccess.getHttpStatus()).body(reportSuccess);
+         return jasperService.exportReportAsPDF(format, type, price, authorId);
 
 
 
