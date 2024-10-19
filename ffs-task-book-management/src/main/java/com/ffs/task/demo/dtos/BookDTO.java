@@ -1,13 +1,14 @@
 package com.ffs.task.demo.dtos;
 
 import com.ffs.task.demo.entities.Type;
-import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class BookDTO {
+    //DTOS VARIABLES MUST HAVE THE SAME NAME AS IN ENTITY
+    //WHEN MAPPING USING MODEL MAPPER
 
     private int id;
 
