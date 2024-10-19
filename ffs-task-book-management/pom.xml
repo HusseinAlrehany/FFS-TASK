@@ -72,6 +72,13 @@
 			<version>2.6.0</version>
 		</dependency>
 
+		<!--add model mapper support-->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

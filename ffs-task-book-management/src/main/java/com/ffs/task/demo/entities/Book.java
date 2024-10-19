@@ -46,7 +46,7 @@ public class Book  {
 
 
     //USING MODEL MAPPER TO MAP ENTITY TO DTO
-    @JsonIgnore
+   /* @JsonIgnore
     public BookDTO getBookDTO(){
         BookDTO bookDTO = new BookDTO();
         bookDTO.setId(id);
@@ -60,7 +60,7 @@ public class Book  {
         bookDTO.setAuthorName(author.getName());
         return bookDTO;
 
-    }
+    }*/
 }
 
 
