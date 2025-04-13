@@ -34,7 +34,7 @@ public class JasperService {
     //to avoid specifying a static path
     private String path  = System.getProperty("user.dir");
 
-    public ReportSuccessDTO exportReport(String format, Type type, Long price, int authorId) {
+    public ReportSuccessDTO exportReport(String format, String type, Long price, int authorId) {
         try {
 
             List<BookDTO> bookDTOList = bookService.filterBookByNameAndPrice(type,price, authorId);
@@ -75,7 +75,7 @@ public class JasperService {
         }
 
     //RETURN PDF FILE AS BYTEARRAY INSTEAD OF IT'S PATH TO AVOID FRONT END NO ACCESS PROBLEM
-   public ResponseEntity<byte[]> exportReportAsPDF(String format, Type type, Long price, int authorId){
+   public ResponseEntity<byte[]> exportReportAsPDF(String format, String type, Long price, int authorId){
         try{
 
             List<BookDTO> bookDTOList = bookService.filterBookByNameAndPrice(type,price, authorId);

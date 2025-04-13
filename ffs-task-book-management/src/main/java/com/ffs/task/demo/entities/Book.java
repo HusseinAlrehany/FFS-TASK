@@ -44,23 +44,6 @@ public class Book  {
     private Author author;
 
 
-
-    //USING MODEL MAPPER TO MAP ENTITY TO DTO
-   /* @JsonIgnore
-    public BookDTO getBookDTO(){
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setId(id);
-        bookDTO.setName(name);
-        bookDTO.setType(type);
-        bookDTO.setAuthorId(author.getId());
-        bookDTO.setPrice(price);
-        bookDTO.setSerialNumber(serialNumber);
-        bookDTO.setCreationDate(creationDate);
-        bookDTO.setLastUpdated(lastUpdated);
-        bookDTO.setAuthorName(author.getName());
-        return bookDTO;
-
-    }*/
 }
 
 

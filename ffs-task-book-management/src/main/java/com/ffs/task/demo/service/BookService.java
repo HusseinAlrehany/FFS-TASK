@@ -14,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -28,15 +30,7 @@ public class BookService {
 
     public BookDTO createBook(BookDTO bookDTO) {
 
-       Author author = Optional.of(bookDTO.getAuthorId())
-               //flatMap used to apply a function(authorRepository.findById(bookDTO.getAuthorId()))
-               //and returns optional<Author>
-               //if the optional contains a value it unwraps it and continue
-               //if the optional is empty it will not apply any further operations
-               //and the empty optional will propagate down to the chain
-               //it is used here instead of map to avoid additional wrapping of optional by map
-               //map will wrap the result like Optional<Optional<Author>>
-                .flatMap(authorRepository::findById)
+       Author author = authorRepository.findById(bookDTO.getAuthorId())
                 .orElseThrow(()-> new NotFoundException("No Author Found"));
 
         if(bookDTO.getName().isBlank()|| bookDTO.getType() == null){
@@ -48,7 +42,8 @@ public class BookService {
         book.setType(bookDTO.getType());
         book.setPrice(bookDTO.getPrice());
         book.setSerialNumber(bookDTO.getSerialNumber());
-         book.setAuthor(author);
+        book.setAuthor(author);
+
          bookRepository.save(book);
 
         return modelMapper.map(book, BookDTO.class);
@@ -82,9 +77,11 @@ public class BookService {
     public List<BookDTO> findAllBooks() {
         //optional.of -> if the value won't be null, but may be empty
         //optional.ofNullable -> if the value might be null
-        List<Book> books = Optional.of(bookRepository.findAll())
-                .filter(b -> !b.isEmpty())
-                .orElseThrow(() -> new NotFoundException("No Books Found"));
+        List<Book> books = bookRepository.findAll();
+
+        if(books.isEmpty()){
+           throw new NotFoundException("No Books Found");
+        }
         return modelMapper.map(books, new TypeToken<List<BookDTO>>(){}.getType());
     }
 
@@ -93,20 +90,25 @@ public class BookService {
         return bookRepository.findAll(PageRequest.of(page, size));
     }
 
-    public List<BookDTO> filterBookByNameAndPrice(Type type,  Long price, int authorId){
+    public List<BookDTO> filterBookByNameAndPrice(String type,  Long price, int authorId){
 
-        Optional.ofNullable(price)
-                .filter(p -> p > 0)
-                .orElseThrow(() -> new ArgumentException("Invalid Price"));
+          //validating the enum type by passing as string then store it in enum type
+          Type bookTypeEnum = Type.fromStringToType(type);
 
-       Optional.of(authorId)
-               .filter(authId -> authId > 0)
-               .orElseThrow(() -> new ArgumentException("Invalid AuthorId"));
+          if(price == null || price < 0){
+              throw new ArgumentException("Invalid Price");
+          }
 
-        List<Book> filteredBooks = Optional.of(
-                bookRepository.findByTypeAndPriceGreaterThanAndAuthor_Id(type, price, authorId))
-                .filter(books -> !books.isEmpty())
-                .orElseThrow(() -> new NotFoundException("No Books Found"));
+          if(authorId < 0 ){
+              throw new ArgumentException("Invalid author ID");
+          }
+
+        List<Book> filteredBooks = bookRepository.findByTypeAndPriceGreaterThanAndAuthor_Id(bookTypeEnum, price, authorId);
+
+          if(filteredBooks.isEmpty()){
+              throw new NotFoundException("No Books Found For That Search Criteria!");
+          }
+
         //new TypeToken<>.getType() used to tell model mapper
         //what is the targeted type should be
         //because java erases the type parameter at runtime

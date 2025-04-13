@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BookFilteration" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fc61801d-fcd3-47e3-b728-ec27b550133a">
 
-
+ <!-- here the variable names of dto or entity returned the exact same names the class of the data type-->
     <field name="id" class="java.lang.Integer">
 
     </field>
@@ -40,8 +40,9 @@
                 <staticText>
                     <reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="a0bcef1e-177a-496a-b8b1-7f1c82713891"/>
                     <textElement>
-                        <font size="34" isBold="true"/>
+                        <font size="24" isBold="true"/>
                     </textElement>
+                    <!--Name of the report on top left-->
                     <text><![CDATA[Books Report]]></text>
                 </staticText>
                 <staticText>
@@ -49,6 +50,7 @@
                     <textElement textAlignment="Right">
                         <font size="14" isBold="false"/>
                     </textElement>
+                    <!--Title of the report on top right-->
                     <text><![CDATA[Book Filteration]]></text>
                 </staticText>
             </frame>
@@ -69,6 +71,7 @@
                 <textElement textAlignment="Center">
                     <font size="14" isBold="true"/>
                 </textElement>
+                <!--Column ID-->
                 <text><![CDATA[ID]]></text>
             </staticText>
             <staticText>
@@ -78,6 +81,7 @@
                 <textElement textAlignment="Center">
                     <font size="14" isBold="true"/>
                 </textElement>
+                <!--Column Name-->
                 <text><![CDATA[Name]]></text>
             </staticText>
             <staticText>
@@ -157,6 +161,7 @@
                 <textElement>
                     <font size="14"/>
                 </textElement>
+                <!-- the value returned under ID column -->
                 <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
@@ -164,8 +169,9 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9c2de70-3b83-4489-8bcd-13834580398a"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
+                <!-- the value returned under Name column -->
                 <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
@@ -173,7 +179,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f38f2c26-cff4-4641-af56-6c05f468528d"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
             </textField>
@@ -182,7 +188,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d62c34c6-165b-429f-8a8d-7c3a9de8bf73"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{authorId}]]></textFieldExpression>
             </textField>
@@ -191,7 +197,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="14c4e36d-9a15-4535-9395-a2e70ec2f378"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{serialNumber}]]></textFieldExpression>
             </textField>
@@ -200,7 +206,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="84719be4-1a8e-49d0-bbd8-9919cccdb521"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
             </textField>
@@ -209,7 +215,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44b39303-98f5-418c-a0a8-4202abbc6947"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
             </textField>
@@ -218,7 +224,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="20f8a272-3f58-4125-860f-b232e8783125"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{lastUpdated}]]></textFieldExpression>
             </textField>
@@ -227,7 +233,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="654340c1-d4f1-4ba8-8d90-09840becc0ce"/>
                 </reportElement>
                 <textElement>
-                    <font size="14"/>
+                    <font size="10"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{authorName}]]></textFieldExpression>
             </textField>

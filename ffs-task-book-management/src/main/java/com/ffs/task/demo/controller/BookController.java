@@ -66,7 +66,7 @@ public class BookController {
 
    @GetMapping("/filterBooks")
    public ResponseEntity<byte[]> filterBooks(@RequestParam(defaultValue = "pdf") String format,
-                                             @RequestParam Type type,
+                                             @RequestParam String type,
                                              @RequestParam Long price,
                                              @RequestParam int authorId) {
 
